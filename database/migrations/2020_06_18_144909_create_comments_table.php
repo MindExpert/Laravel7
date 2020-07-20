@@ -16,10 +16,12 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('content');
-        
+            $table->string('content');       
             $table->unsignedBigInteger('blog_post_id')->index();
-            $table->foreign('blog_post_id')->references('id')->on('blog_posts');
+
+            $table->foreign('blog_post_id')
+                ->references('id')
+                ->on('blog_posts');
         });
     }
 
