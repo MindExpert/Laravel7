@@ -17,28 +17,33 @@
     <body>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Laravel Blog</h5>
-            <nav class="my-2 my-md-0 mr-md-3">
+            <nav class="nav my-2 my-md-0 mr-md-3">
                 <a href="{{ route('home') }}">Home</a>
                 <a href="{{ route('contact') }}">Contact</a>
-                <a href="{{ route('posts.index') }}">Blog Posts</a>
-                <a href="{{ route('posts.create') }}">Create Blog</a>                   
-            </nav>
-        </div>
-        
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
+                <a href="{{ route('posts.index') }}">Show Blogs</a>
+                <a href="{{ route('posts.create') }}">Add Blog</a>        
+                @guest
+                    <a href="{{ route('login') }}">Login</a> 
+                    @if (Route::has('register'))
                             <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+                    @endif 
+                @else
+                    <form 
+                        action="{{ route('logout') }}" 
+                        method="post" 
+                        id="logout-form"
+                        style="display: none"
+                    >
+                        @csrf
+
+                    </form>
+                    <a 
+                        href="{{ route('logout') }}" 
+                        onclick="event.preventDefault(); 
+                        document.getElementById('logout-form').submit()"
+                    > Logout ({{ Auth::user()->name}}) </a>  
+                @endguest
+            </nav>
         </div>
 
         <div class="container">
