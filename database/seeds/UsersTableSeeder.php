@@ -12,7 +12,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {  
+        $userCount = (int)$this->command->ask('How many users would you like do generate?', 20);
         factory(User::class)->state('john-doe')->create();  // is User Model
-        factory(User::class, 20)->create(); // Is a Collection
+        factory(User::class, $userCount)->create(); // Is a Collection
     }
 }
