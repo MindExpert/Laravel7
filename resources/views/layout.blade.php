@@ -47,12 +47,15 @@
         </div>
 
         <div class="container">
+            
+            @if (session()->has('status'))
+                <p style="color:red;">
+                    {{ session()->get('status') }}
+                </p>
+            @endif  
+
             @yield('content')
-                @if (session()->has('status'))
-                    <p style="color:red;">
-                        {{ session()->get('status') }}
-                    </p>
-                @endif  
+                
         </div>
  
     <script src="{{ mix('js/app.js') }}"></script>

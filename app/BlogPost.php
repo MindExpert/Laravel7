@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BlogPost extends Model
 {
+    use SoftDeletes;
+    
     protected $guarded = [];
     //protected $fillable = ['title', 'content'];
 
@@ -13,4 +16,11 @@ class BlogPost extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+    // public static function boot() {
+    //     parent::boot();
+    //     static::deleting(function (BlogPost $blogPost) {
+    //         $blogPost->comments()->delete(); //deletes all the related models from the comments model
+    //     });
+    // }
 }
