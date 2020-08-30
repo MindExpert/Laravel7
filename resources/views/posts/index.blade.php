@@ -11,6 +11,11 @@
             @else
                 <p class="text">No Comments yet</p>
             @endif
+
+        <p class="text-muted"> 
+            Added: {{ $post->created_at->diffForHumans()  }} </br>
+            by: {{ $post->user->name }}
+        </p>
             
             {{-- <p class="text">{{ $post->content }} </p> --}}
             <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit!</a>
