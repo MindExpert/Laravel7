@@ -17,6 +17,7 @@ class PostTest extends TestCase
         $response->assertSeetext('Nothing to show here!');
     }
 
+
     public function testSee1BlogPostWhenThereIs1WithNoComments()
     {
         // Arrange Part
@@ -33,6 +34,7 @@ class PostTest extends TestCase
         ]);
     }
 
+
     public function testSee1BlogPostWithComments() 
     {
         // Arrange Part
@@ -46,6 +48,7 @@ class PostTest extends TestCase
         $response->assertSeetext('4 comments');
 
     }
+
 
     // Testing Store Method
     public function testStoreValid()
@@ -64,6 +67,7 @@ class PostTest extends TestCase
         $this->assertEquals(session('status'), 'Blog post was created succesfully!');
     }
 
+
     // Testing Store/Fail Method
     public function testStoreFail()
     {
@@ -81,9 +85,9 @@ class PostTest extends TestCase
         $messages = session('errors')->getMessages();
         $this->assertEquals($messages['title'][0], 'The title must be at least 5 characters.');
         $this->assertEquals($messages['content'][0], 'The content must be at least 5 characters.');
-
         //dd($messages->getMessages());
     }
+
 
     // Testing Update
     public function testUpdateValid()
@@ -113,6 +117,7 @@ class PostTest extends TestCase
         ]);
     }
 
+
     // Testing Delete
     public function testDelete()
     {
@@ -125,7 +130,9 @@ class PostTest extends TestCase
 
         $this->assertEquals(session('status'), 'Blog post was deleted!');
         $this->assertDatabaseMissing('blog_posts', $post->toArray());
+        // $this->assertSoftDeleted('blog_posts', $post->toArray());
     }
+
 
     private function createDummyBlogPost(): BlogPost
     {
@@ -134,9 +141,7 @@ class PostTest extends TestCase
         // $post->title = 'New Title';
         // $post->content = 'Content of the Blog';
         // $post->save();
-
         return factory(BlogPost::class)->states('new-title')->create();
-
         // return $post;
     }
 

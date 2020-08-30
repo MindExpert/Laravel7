@@ -17,10 +17,19 @@ class BlogPost extends Model
         return $this->hasMany('App\Comment');
     }
 
-    // public static function boot() {
-    //     parent::boot();
-    //     static::deleting(function (BlogPost $blogPost) {
-    //         $blogPost->comments()->delete(); //deletes all the related models from the comments model
-    //     });
-    // }
+    public static function boot() 
+    {
+        parent::boot();
+
+        //deletes all the related comments when deleting a blogPost
+        static::deleting(function (BlogPost $blogPost) {
+            $blogPost->comments()->delete(); 
+        });
+
+        //restore all the related comments when restoring a blogPost
+        static::restoring(function (BlogPost $blogPost) {
+            $blogPost->comments()->restore(); 
+        });
+    }
+
 }
