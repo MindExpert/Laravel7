@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,6 +27,8 @@ class BlogPost extends Model
     public static function boot() 
     {
         parent::boot();
+
+        static::addGlobalScope(new LatestScope);
 
         //deletes all the related comments when deleting a blogPost
         static::deleting(function (BlogPost $blogPost) {

@@ -36,7 +36,7 @@ class PostController extends Controller
         
         return view(
             'posts.index', 
-            ['posts'=>BlogPost::withCount('comments')->get()]
+            ['posts'=>BlogPost::withCount('comments')->orderBy('created_at', 'desc')->get()]
         );
         
     }
@@ -44,6 +44,7 @@ class PostController extends Controller
 
     public function create()
     {
+        // $this->authorize('posts.create');
         return view('posts.create');
     }
 
@@ -52,6 +53,8 @@ class PostController extends Controller
     {
 
         $validatedData = $request->validated();
+        $validatedData['user_id'] = $request->user()->id; 
+
         $blogPost = BlogPost::create($validatedData);
 
         $request->session()->flash('status' , 'Blog post was created succesfully!');
@@ -74,7 +77,7 @@ class PostController extends Controller
         // if (Gate::denies('update-post', $post)) {
         //    abort(403, "You cant edit this post!"); 
         // }
-        $this->authorize('update-post', $post, 'You Cant EDIT');
+        $this->authorize('update', $post);
 
         return view('posts.edit', ['post'=> $post]);
     }
@@ -88,7 +91,7 @@ class PostController extends Controller
         // if (Gate::denies('update-post', $post)) {
         //    abort(403, "You cant update this post!"); 
         // }
-        $this->authorize('update-post', $post);
+        $this->authorize('update', $post);
 
         $validatedData = $request->validated();
         $post->fill($validatedData);
@@ -106,7 +109,7 @@ class PostController extends Controller
         // if (Gate::denies('delete-post', $post)) {
         //    abort(403, "You cant delete this post!"); 
         // }
-        $this->authorize('delete-post', $post);
+        $this->authorize('delete', $post);
 
         $post->delete();
 

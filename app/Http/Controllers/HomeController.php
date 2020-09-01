@@ -21,24 +21,9 @@ class HomeController extends Controller
         return view('contact');
     }
 
-    public function blog($postId, $greating = 1)
+    public function secret()
     {
-        // Associative array
-        $pages = [
-            1 => [
-                'title' => ' from Page 1'
-            ],
-            2 => [
-                'title' => ' from Page 2'
-            ],
-        ];
-    
-        // array
-        $welcome = [ 1=> 'Hello, ' , 2 => 'Welcome, '];
-    
-        return view('blog-post', [
-            'data'=> $pages[$postId], 
-            'greatings' => $welcome[$greating]
-        ]);
+        return view('secret');
     }
+
 }
