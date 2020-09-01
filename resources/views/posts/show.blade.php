@@ -11,7 +11,7 @@
         <strong>Post is New!</strong>
     @endif
 
-    <h4>Coments</h4>
+    <h4>COMMENTS</h4>
     @forelse ($post->comments as $comment)
         <p class="text"> 
             {{ $comment->content }}
