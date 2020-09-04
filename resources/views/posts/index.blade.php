@@ -24,11 +24,20 @@
                     <p class="text">No Comments yet</p>
                 @endif
 
-                <p class="text-muted"> 
-                    Added: {{ $post->created_at->diffForHumans()  }} </br>
+
+                {{-- They all do the same thing --}}
+
+                {{-- <p class="text-muted"> 
+                    Added: {{ $post->created_at->diffForHumans() }} </br>
                     by: {{ $post->user->name }}
-                </p>
+                </p> --}}
+                @component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name])
+                @endcomponent
+                {{-- <x-updated :name="$post->user->name" :date="$post->created_at"/> --}}
                 
+
+
+
                 @can('update', $post)
                     {{-- <p class="text">{{ $post->content }} </p> --}}
                     <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit!</a>
