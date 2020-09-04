@@ -46,7 +46,7 @@ class AuthServiceProvider extends ServiceProvider
         // posts.create, posts.update, posts.delete, posts.edit ect.
 
         Gate::before(function($user, $ability){
-            if ($user->is_admin && in_array($ability, ['update']) ){
+            if ($user->is_admin && in_array($ability, ['update', 'delete']) ){
                 return true;
             }
         });
