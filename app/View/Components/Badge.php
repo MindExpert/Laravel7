@@ -34,11 +34,10 @@ class Badge extends Component
      *
      * @return void
      */
-    public function __construct($type, $show, $message)
+    public function __construct($type, $show)
     {
         $this->type = $type;
         $this->show = $show;
-        $this->message = $message;
     }
 
     /**
