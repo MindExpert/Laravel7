@@ -34,6 +34,9 @@
 
                 @component('components.updated', ['date' => $post->created_at->diffForHumans(), 'name' => $post->user->name])
                 @endcomponent
+
+                @component('components.tags', ['tags' => $post->tags])
+                @endcomponent
                 
                 {{-- <x-updated :name="$post->user->name" :date="$post->created_at->diffForHumans()">
                     Testing
@@ -73,44 +76,7 @@
         </div>
 
         <div class="col-4">
-            <div class="container">
-
-                <div class="row">
-                    @component('components.card', ['title'=> 'Most Commented'])
-                        @slot('subtitle')
-                            What people are currently talking about
-                        @endslot
-                        @slot('items')
-                            @foreach ($mostCommented as $post)
-                                <li class="list-group-item">
-                                    <a href="{{ route('posts.show', ['post' => $post->id]) }}">
-                                        {{ $post->title }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        @endslot
-                    @endcomponent
-                </div>
-
-                <div class="row row mt-4">
-                    @component('components.card', ['title'=> 'Most Active'])
-                        @slot('subtitle')
-                            User with most poste written
-                        @endslot
-                        @slot('items', collect($mostActive)->pluck('name'))
-                    @endcomponent
-                </div>
-
-                <div class="row row mt-4">
-                    @component('components.card', ['title'=> 'Most Active Last Month'])
-                        @slot('subtitle')
-                            Users with most posts written in the last month
-                        @endslot
-                        @slot('items', collect($mostActiveLastMonth)->pluck('name'))
-                    @endcomponent
-                </div>
-
-            </div>
+            @include('posts._activity')
         </div>
     </div>
 @endsection

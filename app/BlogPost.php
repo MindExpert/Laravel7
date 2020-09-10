@@ -26,6 +26,11 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps()->as('tagged');
+    }
+
 
     public function scopeLatest(Builder $query)
     {

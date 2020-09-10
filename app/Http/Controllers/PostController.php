@@ -37,28 +37,11 @@ class PostController extends Controller
         //     }
         // }
         // dd(DB::getQueryLog());
-
-        // add to cache
-        $mostCommented = Cache::remember('blog-post-most-commented', now()->addSeconds(10), function(){
-            return BlogPost::mostCommented()->take(5)->get();
-        });
-
-        $mostActive = Cache::remember('users-most-active', 60, function(){
-            return User::withMostBlogPosts()->take(5)->get();
-        });
-
-        $mostActiveLastMonth = Cache::remember('users-most-active-last-month', 60, function(){
-            return User::withMostBlogPostsLastMonth()->take(5)->get();
-        });
-        
         
         return view(
             'posts.index', 
             [
-                'posts'=>BlogPost::latest()->withCount('comments')->with('user')->get(),
-                'mostCommented' => $mostCommented,
-                'mostActive' => $mostActive,
-                'mostActiveLastMonth' => $mostActiveLastMonth,
+                'posts'=>BlogPost::latest()->withCount('comments')->with('user')->with('tags')->get()
             ]
         );
         
@@ -92,11 +75,57 @@ class PostController extends Controller
         //         return $query->latest();
         //     }])->findOrFail($id)
         // ]);
+
+        /* REDIS tags*/
+        // $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function() use($id){
+        //     return BlogPost::with('comments')->findOrFail($id);
+        // });
+
         $blogPost = Cache::remember("blog-post-{$id}", 60, function() use($id){
-            return BlogPost::with('comments')->findOrFail($id);
+            return BlogPost::with('comments')->with('user')->with('tags')->findOrFail($id);
         });
+
+        // Counter user per posts
+        $sessionId = session()->getId();
+        $counterKey = "blog-post-{$id}-counter";
+        $usersKey = "blog-post-{$id}-users";
+
+        // $users = Cache::tags(['blog-post'])->get($usersKey, []);
+        $users = Cache::get($usersKey, []);
+        $usersUpdate = [];
+        $difference = 0;
+        $now = now();
+
+        foreach ($users as $session => $lastVisit) {
+            if ($now->diffInMinutes($lastVisit) >= 1) {
+                $difference--;
+            }else {
+                $usersUpdate[$session] = $lastVisit;
+            }
+        }
+
+        if (!array_key_exists($sessionId, $users) || $now->diffInMinutes($users[$sessionId]) >=1 ) {
+            $difference++;
+        }
+
+        $usersUpdate[$sessionId] = $now;
+        // Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
+        Cache::forever($usersKey, $usersUpdate);
+
+        if (!Cache::has($counterKey)) {
+            // Cache::tags(['blog-post'])->forever($counterKey, 1);
+            Cache::forever($counterKey, 1);
+        } else {
+            // Cache::tags(['blog-post'])->increment($counterKey, $difference);
+            Cache::increment($counterKey, $difference);
+        }
+
+        // $counter = Cache::tags(['blog-post'])->get($counterKey);
+        $counter = Cache::get($counterKey);
+
         return view('posts.show', [
             'post' => $blogPost,
+            'counter' => $counter,
         ]);
 
     }
