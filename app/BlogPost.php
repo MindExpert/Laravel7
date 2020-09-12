@@ -43,6 +43,16 @@ class BlogPost extends Model
         return $query->withCount('comments')->orderBY('comments_count', 'desc');
     }
 
+    public function scopeLatestWithRelations(Builder $query)
+    {
+        //comments_count 
+        return $query->latest()
+            ->withCount('comments')
+            ->with('user')
+            ->with('tags');
+        }
+
+
     public static function boot() 
     {
         static::addGlobalScope(new DeletedAdminScope);
@@ -51,7 +61,8 @@ class BlogPost extends Model
 
         //deletes all the related comments when deleting a blogPost
         static::deleting(function (BlogPost $blogPost) {
-            $blogPost->comments()->delete(); 
+            $blogPost->comments()->delete();
+            Cache::forget("blog-post-{$blogPost->id}");
         });
 
         static::updating(function (BlogPost $blogPost) {

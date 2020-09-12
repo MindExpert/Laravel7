@@ -26,12 +26,18 @@
         <p class="text-muted">Currently read by: {{ $counter }} people!</p>
     
         <h4>COMMENTS</h4>
+
+        @include('comments._form')
+
         @forelse ($post->comments as $comment)
-            <p class="text"> 
-                {{ $comment->content }}
-            </p>
-            @component('components.updated', ['date' => $comment->created_at->diffForHumans(), 'name' => $comment->user->name])
-            @endcomponent
+            <div class="mb-2 p-2" style="border: 1px solid #00d4ff; border-radius: 10px">
+
+                <p class="text"> 
+                    {{ $comment->content }}
+                </p>
+                @component('components.updated', ['date' => $comment->created_at->diffForHumans(), 'name' => $comment->user->name])
+                @endcomponent
+            </div>
         @empty
             <p class="text">No Comments Yet to Show</p>
         @endforelse

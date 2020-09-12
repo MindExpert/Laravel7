@@ -41,7 +41,8 @@ class PostController extends Controller
         return view(
             'posts.index', 
             [
-                'posts'=>BlogPost::latest()->withCount('comments')->with('user')->with('tags')->get()
+                // 'posts'=>BlogPost::latest()->withCount('comments')->with('user')->with('tags')->get()
+                'posts'=>BlogPost::latestWithRelations()->get()
             ]
         );
         
@@ -82,7 +83,7 @@ class PostController extends Controller
         // });
 
         $blogPost = Cache::remember("blog-post-{$id}", 60, function() use($id){
-            return BlogPost::with('comments')->with('user')->with('tags')->findOrFail($id);
+            return BlogPost::with('comments', 'tags', 'user', 'comments.user')->findOrFail($id);
         });
 
         // Counter user per posts
