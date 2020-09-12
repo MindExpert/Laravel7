@@ -16,6 +16,10 @@ class Comment extends Model
         return $this->belongsTo(BlogPost::class);
     }
 
+    public function user() 
+    {
+        return $this->belongsTo(User::class);
+    }
     
     public function scopeLatest(Builder $query)
     {

@@ -30,7 +30,7 @@
             <p class="text"> 
                 {{ $comment->content }}
             </p>
-            @component('components.updated', ['date' => $comment->created_at->diffForHumans()])
+            @component('components.updated', ['date' => $comment->created_at->diffForHumans(), 'name' => $comment->user->name])
             @endcomponent
         @empty
             <p class="text">No Comments Yet to Show</p>
