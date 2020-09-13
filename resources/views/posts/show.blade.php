@@ -3,15 +3,33 @@
 @section('content')
 <div class="row">
     <div class="col-8">
-        <h1 class="title m-b-md">Greating from the - {{ $post->title }}!</h1>
+
+        @if ($post->image)
+            <div style="background-image: url('{{ $post->image->url() }}'); min-height: 500px; color: white; text-align: center; background-position: center; background-attachment: fixed">
+                <h1 class="title" style="padding-top: 100px; text-shadow: 1px 2px #000">
+        @else    
+            <h1>
+        @endif
+            Greating from the - {{ $post->title }}! 
             @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 45])
                 New Post!
             @endcomponent
-            {{-- Same as the one below --}}
+        @if ($post->image)
+                </h1>
+            </div>
+        @else    
+            </h1>
+        @endif
+            {{-- Same as the one above --}}
             <x-badge type="primary" :show="now()->diffInMinutes($post->created_at)<45">
                 New Post Component!
             </x-badge>
         <p class="text"> {{ $post->content }}</p>
+
+        {{-- <img src="{{ Storage::url($post->image->path)}}" alt=""> --}}
+        {{-- <img src="{{ $post->image->url() }}" alt=""> --}}
+
+
     
         @component('components.updated', ['date' => $post->created_at->diffForHumans(), 'name' => $post->user->name])
         @endcomponent

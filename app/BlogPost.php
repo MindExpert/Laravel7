@@ -20,7 +20,6 @@ class BlogPost extends Model
         return $this->hasMany(Comment::class)->latest();
     }
 
-
     public function user() 
     {
         return $this->belongsTo(User::class);
@@ -29,6 +28,11 @@ class BlogPost extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class)->withTimestamps()->as('tagged');
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class);
     }
 
 

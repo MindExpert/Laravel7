@@ -6,6 +6,7 @@ use App\User;
 use App\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
+use App\Image;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,6 +67,9 @@ class PostController extends Controller
 
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('thumbnails');
+            $blogPost->image()->save(
+                Image::create(['path' => $path])
+            );
         }
         
         $request->session()->flash('status' , 'Blog post was created succesfully!');
@@ -161,6 +165,20 @@ class PostController extends Controller
 
         $validatedData = $request->validated();
         $post->fill($validatedData);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+            if($post->image){
+                Storage::delete($post->image->path);
+                $post->image->path = $path;
+                $post->image->save();
+            } else {
+                $post->image()->save(
+                    Image::create(['path' => $path])
+                );
+            }
+        }
+
         $post->save();
 
         $request->session()->flash('status' , 'Blog post was Updated!');
