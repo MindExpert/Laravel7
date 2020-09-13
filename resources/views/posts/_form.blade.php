@@ -16,5 +16,13 @@
     @enderror
 </div>
 
+<div class="form-group">
+    <label for="content">Thumbnail</label>
+    <input type="file" class="form-control-file {{ $errors->has('thumbnail') ? 'is-invalid' : ''}}" name="thumbnail">
+    @error('thumbnail')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
 @component('components.errors')
 @endcomponent

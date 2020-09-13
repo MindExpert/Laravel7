@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h2>Edit Blog Post</h2>
-        <form action="{{ route('posts.update' , ['post'=> $post->id ]) }}" method="post">
+        <form action="{{ route('posts.update' , ['post'=> $post->id ]) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

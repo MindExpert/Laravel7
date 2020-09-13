@@ -7,6 +7,7 @@ use App\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 // use Illuminate\Support\Facades\Gate;
 // use Illuminate\Support\Facades\DB;
@@ -61,9 +62,12 @@ class PostController extends Controller
 
         $validatedData = $request->validated();
         $validatedData['user_id'] = $request->user()->id; 
-
         $blogPost = BlogPost::create($validatedData);
 
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+        }
+        
         $request->session()->flash('status' , 'Blog post was created succesfully!');
         return redirect()->route('posts.show', ['post' => $blogPost->id]);
     }
