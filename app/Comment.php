@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\BlogPost;
 use App\Scopes\LatestScope;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -14,9 +15,9 @@ class Comment extends Model
     
     protected $fillable = ['user_id', 'content'];
 
-    public function blogPost()
+    public function commentable()
     {
-        return $this->belongsTo(BlogPost::class);
+        return $this->morphTo();
     }
 
     public function user() 
@@ -35,9 +36,13 @@ class Comment extends Model
         parent::boot();
         // static::addGlobalScope(new LatestScope);
 
+        // reset blogpost Cache when a new comment is added
         static::creating(function (Comment $comment) {
-            Cache::forget("blog-post-{$comment->blog_post_id}");
-            Cache::forget('blog-post-most-commented');
+            // since comment can be added to the user, we need to check for the type
+            if($comment->commentable_type == BlogPost::class){
+                Cache::forget("blog-post-{$comment->commentable_id}");
+                Cache::forget('blog-post-most-commented');
+            }
         });
 
     }

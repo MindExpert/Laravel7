@@ -7,6 +7,7 @@ use App\View\Components\Badge;
 use App\View\Components\Updated;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+        
         Blade::component('badge', Badge::class);
         Blade::component('updated', Updated::class);
         // Blade::component('components.badge', 'badge');

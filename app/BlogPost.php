@@ -13,11 +13,11 @@ class BlogPost extends Model
     use SoftDeletes;
     
     protected $guarded = [];
-    //protected $fillable = ['title', 'content'];
+    // protected $fillable = ['title', 'content', 'user_id'];
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->latest();
+        return $this->morphMany(Comment::class, 'commentable')->latest();
     }
 
     public function user() 
@@ -32,9 +32,8 @@ class BlogPost extends Model
 
     public function image()
     {
-        return $this->hasOne(Image::class);
+        return $this->morphOne(Image::class, 'imageable');
     }
-
 
     public function scopeLatest(Builder $query)
     {
