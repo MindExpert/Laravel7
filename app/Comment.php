@@ -39,7 +39,7 @@ class Comment extends Model
         // reset blogpost Cache when a new comment is added
         static::creating(function (Comment $comment) {
             // since comment can be added to the user, we need to check for the type
-            if($comment->commentable_type == BlogPost::class){
+            if($comment->commentable_type === BlogPost::class){
                 Cache::forget("blog-post-{$comment->commentable_id}");
                 Cache::forget('blog-post-most-commented');
             }

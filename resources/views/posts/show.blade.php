@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="row">
+    
     <div class="col-8">
 
         @if ($post->image)
@@ -45,9 +46,13 @@
     
         <h4>COMMENTS</h4>
 
-        @include('comments._form')
+        @component('components.comment-form', ['route'=> route('posts.comments.store', ['post' => $post->id])])
+        @endcomponent
+        {{-- @include('comments._form') --}}
 
-        @forelse ($post->comments as $comment)
+        @component('components.comment-list', ['comments' =>$post->comments])
+        @endcomponent
+        {{-- @forelse ($post->comments as $comment)
             <div class="mb-2 p-2" style="border: 1px solid #00d4ff; border-radius: 10px">
 
                 <p class="text"> 
@@ -58,11 +63,13 @@
             </div>
         @empty
             <p class="text">No Comments Yet to Show</p>
-        @endforelse
+        @endforelse --}}
+
     </div>
+
     <div class="col-4">
         @include('posts._activity')
     </div>
-</div>
 
+</div>
 @endsection

@@ -38,9 +38,13 @@ class PostTest extends TestCase
     public function testSee1BlogPostWithComments() 
     {
         // Arrange Part
+        $user = $this->user();
+
         $post = $this->createDummyBlogPost();
         factory(Comment::class, 4)->create([
-            'blog_post_id' => $post->id
+            'commentable_id' => $post->id,
+            'commentable_type' => 'App\Blogpost',
+            'user_id' => $user->id,
         ]);
 
         // Act Part
@@ -133,8 +137,8 @@ class PostTest extends TestCase
             ->assertSessionHas('status');
 
         $this->assertEquals(session('status'), 'Blog post was deleted!');
-        $this->assertDatabaseMissing('blog_posts', $post->toArray());
-        // $this->assertSoftDeleted('blog_posts', $post->toArray());
+        // $this->assertDatabaseMissing('blog_posts', $post->toArray());
+        $this->assertSoftDeleted('blog_posts', $post->toArray());
     }
 
 
