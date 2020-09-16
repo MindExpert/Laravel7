@@ -91,7 +91,6 @@ class UserController extends Controller
                 );
             }
         }
-
         return redirect()->back()->withStatus('Profile image was updated!');
     }
 

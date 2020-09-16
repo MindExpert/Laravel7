@@ -10,14 +10,13 @@
 
         <div class="row">
             <div class="col-4">
-            <img src="{{ $user->image ? $user->image->url() : ''}}" alt="" class="img-thumbnail avatar">
-
+                <img src="{{ $user->image ? $user->image->url() : ''}}" alt="" class="img-thumbnail avatar">                
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h6>Upload Different Foto</h6>
+                        <h6></h6>
                         <input type="file" class="form-control-file" name="avatar"/>
                         @error('avatar')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div>{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -32,9 +31,11 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">Save Changes! </button>
-                </div>
+                </div>                
             </div>
         </div>
+
+        
 
     </form>
 @endsection

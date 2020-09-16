@@ -4,6 +4,7 @@ namespace App;
 
 use App\BlogPost;
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use softDeletes;
+    use Taggable;
     
     protected $fillable = ['user_id', 'content'];
 
@@ -24,12 +26,11 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function scopeLatest(Builder $query)
     {
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
-
 
     public static function boot()
     {

@@ -16,13 +16,7 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
-            if (env('DB_CONNECTION') === 'sqlit_testing') {          
-                $table->text('content')->default('');
-            } else {
-                $table->text('content')->nullable(); 
-            }
-      
+            $table->text('content')->nullable();       
             $table->unsignedBigInteger('blog_post_id')->index();
 
             $table->foreign('blog_post_id')

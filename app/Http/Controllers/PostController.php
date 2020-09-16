@@ -179,7 +179,6 @@ class PostController extends Controller
                 );
             }
         }
-
         $post->save();
 
         $request->session()->flash('status' , 'Blog post was Updated!');
