@@ -14,8 +14,8 @@ class BlogPost extends Model
     use SoftDeletes;
     use Taggable;
     
-    protected $guarded = [];
-    // protected $fillable = ['title', 'content', 'user_id'];
+    // protected $guarded = ['thumbnail'];
+    protected $fillable = ['title', 'content', 'user_id'];
 
     public function comments()
     {

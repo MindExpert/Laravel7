@@ -13,10 +13,10 @@
                 <img src="{{ $user->image ? $user->image->url() : ''}}" alt="" class="img-thumbnail avatar">                
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h6></h6>
+                        <h6>Upload User Image here:</h6>
                         <input type="file" class="form-control-file" name="avatar"/>
                         @error('avatar')
-                            <div>{{ $message }}</div>
+                            <div style="color: red">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -34,8 +34,5 @@
                 </div>                
             </div>
         </div>
-
-        
-
     </form>
 @endsection
