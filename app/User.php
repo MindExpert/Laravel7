@@ -71,7 +71,16 @@ class User extends Authenticatable
         return $query->withCount(['blogPosts' => function(Builder $query){
             $query->whereBetween(static::CREATED_AT, [now()->subMonths(1), now()]);
         }])
-        ->has('blogPosts', '>=', 4)
+        ->has('blogPosts', '>=', 3)
         ->orderBy('blog_posts_count', 'desc');
     }
+
+    public function scopeThatHasCommentedOnPost(Builder $query, BlogPost $post)
+    {
+        return $query->whereHas('comments', function($query) use ($post) {
+            return $query->where('commentable_id', '=', $post->id)
+                        ->where('commentable_type', '=', BlogPost::class);
+        });
+    }
+
 }

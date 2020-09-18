@@ -50,7 +50,7 @@ class BlogPost extends Model
             ->withCount('comments')
             ->with('user')
             ->with('tags');
-        }
+    }
 
 
     public static function boot() 

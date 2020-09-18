@@ -6,6 +6,7 @@ use Mail;
 use App\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreComment;
+use App\Jobs\NotifyUsersPostWasCommented;
 use App\Mail\CommentPosted;
 use App\Mail\CommentPostedMarkdown;
 
@@ -24,15 +25,18 @@ class PostCommentController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        Mail::to($post->user)->send(
+        // Mail::to($post->user)->send(
+        //     // new CommentPosted($comment)
+        //     new CommentPostedMarkdown($comment)
+        // );
+
+        Mail::to($post->user)->queue(
             // new CommentPosted($comment)
             new CommentPostedMarkdown($comment)
         );
 
-        // $request->session()->flash('status' , 'Comment was added succesfully!');
-        // return redirect()->back();
+        NotifyUsersPostWasCommented::dispatch($comment);
 
-            // Same as above
         return redirect()->back()
             ->withStatus('Comment was added succesfully!');
     }

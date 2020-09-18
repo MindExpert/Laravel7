@@ -91,6 +91,10 @@ class UserController extends Controller
                 );
             }
         }
+        
+        // $request->session()->flash('status' , 'Profile image was updated!');
+        // return redirect()->back();
+        // Same as Above
         return redirect()->back()->withStatus('Profile image was updated!');
     }
 
