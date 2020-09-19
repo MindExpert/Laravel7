@@ -4,7 +4,6 @@ namespace App;
 
 use App\Traits\Taggable;
 use App\Scopes\DeletedAdminScope;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -55,25 +54,9 @@ class BlogPost extends Model
 
     public static function boot() 
     {
+        //we use the boot menu when we want to register some events
         static::addGlobalScope(new DeletedAdminScope);
-        
         parent::boot();
-
-        //deletes all the related comments when deleting a blogPost
-        static::deleting(function (BlogPost $blogPost) {
-            $blogPost->comments()->delete();
-            Cache::forget("blog-post-{$blogPost->id}");
-        });
-
-        static::updating(function (BlogPost $blogPost) {
-            Cache::forget("blog-post-{$blogPost->id}");
-        });
-
-        //restore all the related comments when restoring a blogPost
-        static::restoring(function (BlogPost $blogPost) {
-            $blogPost->comments()->restore(); 
-        });
-        
     }
 
 }

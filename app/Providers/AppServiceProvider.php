@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\BlogPost;
+use App\Comment;
 use App\Http\ViewComposers\ActivityComposer;
+use App\Observers\BlogPostObserver;
+use App\Observers\CommentObserver;
 use App\View\Components\Badge;
 use App\View\Components\Updated;
 use Illuminate\Support\Facades\Blade;
@@ -38,7 +42,8 @@ class AppServiceProvider extends ServiceProvider
         // View::composer(
         //     'posts.index', ActivityComposer::class,
         // );
-
+        BlogPost::observe(BlogPostObserver::class);
+        Comment::observe(CommentObserver::class);
         view()->composer(['posts.index', 'posts.show'], ActivityComposer::class);
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
+use Mail;
 use App\User;
 use App\Comment;
-use App\Mail\CommentPostedOnPostWatched;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
+use App\Mail\CommentPostedOnPostWatched;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Mail;
 
 class NotifyUsersPostWasCommented implements ShouldQueue
 {
@@ -34,6 +34,8 @@ class NotifyUsersPostWasCommented implements ShouldQueue
      */
     public function handle()
     {
+        // $now = now();
+        
         // Get all the users that have commented on a BlogPost
         User::thatHasCommentedOnPost($this->comment->commentable)
             ->get()
@@ -41,9 +43,17 @@ class NotifyUsersPostWasCommented implements ShouldQueue
                 // remove the user that has posted the comment
                 return $user->id !== $this->comment->user->id;
             })->map(function (User $user){
+                // ThrottledMail::dispatch( 
+                //     new CommentPostedOnPostWatched($this->comment, $user), 
+                //     $user
+                // );
                 Mail::to($user)->send(
                     new CommentPostedOnPostWatched($this->comment, $user)
                 );
+                // Mail::to($user)->later(
+                //     $now()->addSeconds(10),
+                //     new CommentPostedOnPostWatched($this->comment, $user)
+                // );
             });
     }
 }
