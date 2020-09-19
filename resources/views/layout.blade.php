@@ -18,14 +18,14 @@
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Laravel Blog</h5>
             <nav class="nav my-2 my-md-0 mr-md-3">
-                <a href="{{ route('home') }}">Home</a>
-                <a href="{{ route('contact') }}">Contact</a>
-                <a href="{{ route('posts.index') }}">Show Blogs</a>
-                <a href="{{ route('posts.create') }}">Add Blog</a>        
+                <a href="{{ route('home') }}"> @lang('Home') </a>
+                <a href="{{ route('contact') }}"> @lang('Contact') </a>
+                <a href="{{ route('posts.index') }}"> @lang('Blog Posts') </a>
+                <a href="{{ route('posts.create') }}"> @lang('Add') </a>        
                 @guest
-                    <a href="{{ route('login') }}">Login</a> 
+                    <a href="{{ route('login') }}">@lang('Login')</a> 
                     @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">@lang('Register')</a>
                     @endif 
                 @else
                     <form 
@@ -41,7 +41,7 @@
                         href="{{ route('logout') }}" 
                         onclick="event.preventDefault(); 
                         document.getElementById('logout-form').submit()"
-                    > Logout ({{ Auth::user()->name}}) </a>  
+                    > @lang('Logout') ({{ Auth::user()->name}}) </a>  
                 @endguest
             </nav>
         </div>

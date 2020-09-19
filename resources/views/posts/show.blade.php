@@ -11,9 +11,9 @@
         @else    
             <h1>
         @endif
-            Greating from the - {{ $post->title }}! 
+            {{ $post->title }}! 
             @component('components.badge', ['type' => 'primary', 'show' => now()->diffInMinutes($post->created_at) < 45])
-                New Post!
+                {{ __('Brand new Post!') }}
             @endcomponent
         @if ($post->image)
                 </h1>
@@ -23,7 +23,7 @@
         @endif
             {{-- Same as the one above --}}
             <x-badge type="primary" :show="now()->diffInMinutes($post->created_at)<45">
-                New Post Component!
+                {{ __('Brand new Post!') }}
             </x-badge>
         <p class="text"> {{ $post->content }}</p>
 
@@ -36,15 +36,16 @@
         @endcomponent
     
         @component('components.updated', ['date' => $post->updated_at->diffForHumans()])
-            Updated
+            {{__('Updated')}}
         @endcomponent 
     
         @component('components.tags', ['tags' => $post->tags])
         @endcomponent
        
-        <p class="text-muted">Currently read by: {{ $counter }} people!</p>
+        {{-- <p class="text-muted">Currently read by: {{ $counter }} people!</p> --}}
+        {{ trans_choice('messages.people.reading', $counter)}}
     
-        <h4>COMMENTS</h4>
+        <h4>{{__('Comments')}}</h4>
 
         @component('components.comment-form', ['route'=> route('posts.comments.store', ['post' => $post->id])])
         @endcomponent

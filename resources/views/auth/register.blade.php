@@ -5,7 +5,7 @@
         @csrf
 
         <div class="form-group">
-            <label for="">Name</label>
+            <label for="">{{ __('Name:') }}</label>
             <input type="text" required 
                 name="name" 
                 value="{{ old('name') }}"
@@ -18,7 +18,7 @@
             @endif
         </div>
         <div class="form-group">
-            <label for="">E-mail</label>
+            <label for="">{{ __('E-mail') }}</label>
             <input type="email" required
                 name="email" 
                 value="{{ old('email') }}" 
@@ -31,7 +31,7 @@
             @endif
         </div>
         <div class="form-group">
-            <label for="">Password</label>
+            <label for="">{{ __('Password') }}</label>
             <input type="password" required
                 name="password" 
                 class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" 
@@ -43,9 +43,9 @@
             @endif
         </div>
         <div class="form-group">
-            <label for="">Confirm Password</label>
+            <label for="">{{ __('Confirm Password') }}</label>
             <input type="password" name="password_confirmation" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Register</button>
+        <button type="submit" class="btn btn-primary btn-block">{{ __('Register') }}</button>
     </form>
 @endsection

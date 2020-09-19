@@ -13,7 +13,7 @@
                 <img src="{{ $user->image ? $user->image->url() : ''}}" alt="" class="img-thumbnail avatar">                
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h6>Upload User Image here:</h6>
+                        <h6>{{__('Upload a different photo')}}</h6>
                         <input type="file" class="form-control-file" name="avatar"/>
                         @error('avatar')
                             <div style="color: red">{{ $message }}</div>
@@ -30,7 +30,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Save Changes! </button>
+                    <button type="submit" class="btn btn-primary btn-block">{{ __('Save changes') }}</button>
                 </div>                
             </div>
         </div>

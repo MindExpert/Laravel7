@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
-        @component('components.card', ['title'=> 'Most Commented'])
+        @component('components.card', ['title'=> __('Most Commented')])
             @slot('subtitle')
-                What people are currently talking about
+            {{__('What people are currently talking about')}}
             @endslot
             @slot('items')
                 @foreach ($mostCommented as $post)
@@ -17,18 +17,18 @@
     </div>
 
     <div class="row row mt-4">
-        @component('components.card', ['title'=> 'Most Active'])
+        @component('components.card', ['title'=> __('Most Active')])
             @slot('subtitle')
-                User with most poste written
+            {{__('Writers with most posts written')}}
             @endslot
             @slot('items', collect($mostActive)->pluck('name'))
         @endcomponent
     </div>
 
     <div class="row row mt-4">
-        @component('components.card', ['title'=> 'Most Active Last Month'])
+        @component('components.card', ['title'=> __('Most Active Last Month')])
             @slot('subtitle')
-                Users with most posts written in the last month
+            {{__('Users with most posts written in the month')}}
             @endslot
             @slot('items', collect($mostActiveLastMonth)->pluck('name'))
         @endcomponent

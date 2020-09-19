@@ -31,9 +31,9 @@
         <div class="form-controll">
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" name="remember" value=" {{ old('remember') ? 'checked' : '' }}">
-                <label for="remember" class="form-check-label">Remember Me!</label>
+                <label for="remember" class="form-check-label">{{__('Remember Me!')}}</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
     </form>
 @endsection

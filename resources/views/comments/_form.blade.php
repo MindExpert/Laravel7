@@ -3,7 +3,7 @@
         <form action="{{ route('posts.comments.store', ['post' => $post->id]) }}" method="post">
             @csrf
             <div class="form-group">
-                <label for="content">Content</label>
+                <label for="content">{{ __('Content') }}</label>
                 <textarea type="text" 
                     class="form-control {{ $errors->has('content') ? 'is-invalid' : ''}}"" 
                     name="content" 
@@ -13,12 +13,12 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Add Comment! </button>
+            <button type="submit" class="btn btn-primary btn-block">{{ __('Add comment') }} </button>
         </form>
         {{-- @component('components.errors')
         @endcomponent --}}
     @else
-        <a href="{{ route('login') }}">Sign IN</a> to post a comment
+        <a href="{{ route('login') }}">{{ __('Sign-in') }}</a> {{ __('to post comments!') }}
     @endauth
 </div>
 <hr/>

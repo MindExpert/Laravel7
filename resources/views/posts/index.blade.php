@@ -18,11 +18,12 @@
                     @endif
                 </h3>
 
-                @if ($post->comments_count)
+                {{-- @if ($post->comments_count)
                     <p class="text"> {{ $post->comments_count}} comments  </p>               
                 @else
                     <p class="text">No Comments yet</p>
-                @endif
+                @endif --}}
+                {{ trans_choice('messages.comments', $post->comments_count)}}
 
 
                 {{-- They all do the same thing --}}
@@ -47,7 +48,7 @@
                 @auth    
                     @can('update', $post)
                         {{-- <p class="text">{{ $post->content }} </p> --}}
-                        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit!</a>
+                        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">{{__('Edit')}}</a>
                     @endcan
                 @endauth
 
@@ -57,7 +58,7 @@
                             <form action="{{ route('posts.destroy' , ['post'=> $post->id ]) }}" method="post" class="fm-inline">
                                 @csrf
                                 @method('DELETE')                    
-                                <button  type="submit" class="btn btn-primary">delete </button>
+                                <button  type="submit" class="btn btn-primary">{{__('Delete!')}}</button>
                             </form>
                         @endcan
                     @endif
@@ -71,7 +72,7 @@
             </ul>
 
         @empty
-            <p class="text">Nothing to show here!</p>  
+            <p class="text">{{__('No blog posts yet!')}}</p>  
         @endforelse 
         </div>
 
