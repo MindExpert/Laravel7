@@ -28,6 +28,12 @@
                             <a href="{{ route('register') }}">@lang('Register')</a>
                     @endif 
                 @else
+                    <a href="{{ route('users.show', ['user' => Auth::user()->id]) }}">
+                        @lang('Profile')
+                    </a> 
+                    <a href="{{ route('users.edit', ['user' => Auth::user()->id]) }}">
+                        @lang('Edit Profile')
+                    </a>  
                     <form 
                         action="{{ route('logout') }}" 
                         method="post" 
@@ -41,7 +47,8 @@
                         href="{{ route('logout') }}" 
                         onclick="event.preventDefault(); 
                         document.getElementById('logout-form').submit()"
-                    > @lang('Logout') ({{ Auth::user()->name}}) </a>  
+                    > @lang('Logout') ({{ Auth::user()->name}}) </a> 
+
                 @endguest
             </nav>
         </div>

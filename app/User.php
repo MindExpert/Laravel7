@@ -20,6 +20,12 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+    public const LOCALES = [
+        'en' => 'English',
+        'es' => 'Espanol',
+        'de' => 'Deutsch'
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *

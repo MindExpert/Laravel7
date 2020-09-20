@@ -23,11 +23,21 @@
             </div>
             <div class="col-8">
                 <div class="form-group">
-                    <label for="">Name:</label>
+                    <label for="">{{__('Name:')}}</label>
                     <input type="text" value="" class="form-control {{ $errors->has('name') ? 'is-invalid' : ''}}" name="name" />
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                </div>
+                <div class="form-group">
+                    <label for="">{{__('Language:')}}</label>
+                    <select name="locale" class="form-control">
+                        @foreach (App\User::LOCALES as $locale =>$label)
+                            <option value="{{ $locale}}" {{ $user->locale !== $locale ?: 'selected'}}>
+                                {{$label}}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">{{ __('Save changes') }}</button>

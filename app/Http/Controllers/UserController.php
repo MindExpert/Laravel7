@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Image;
+use App\Services\Counter;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\Storage;
@@ -55,7 +56,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', ['user' => $user]);
+        $counter = resolve(Counter::class);
+        return view('users.show', [
+            'user' => $user,
+            'counter' => $counter->increment("user-{$user->id}"),
+        ]);
     }
 
     /**
@@ -91,11 +96,14 @@ class UserController extends Controller
                 );
             }
         }
+
+        $user->locale = $request->get('locale');
+        $user->save();
         
         // $request->session()->flash('status' , 'Profile image was updated!');
         // return redirect()->back();
         // Same as Above
-        return redirect()->back()->withStatus('Profile image was updated!');
+        return redirect()->back()->withStatus('Profile was updated!');
     }
 
     /**

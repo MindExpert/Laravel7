@@ -20,6 +20,11 @@ class PostCommentController extends Controller
         $this->middleware('auth')->only('store');
     }
 
+    public function index(BlogPost $post)
+    {
+        return $post->comments;
+    }
+
 
     public function store(BlogPost $post, StoreComment $request)
     {
@@ -27,6 +32,11 @@ class PostCommentController extends Controller
             'content' => $request->input('content'),
             'user_id' => $request->user()->id,
         ]);
+        
+        event(new EventsCommentPosted($comment));
+
+        return redirect()->back()
+            ->withStatus('Comment was added succesfully!');
 
         // Mail::to($post->user)->send(
         //     // new CommentPosted($comment)
@@ -38,7 +48,6 @@ class PostCommentController extends Controller
             )->onQueue('low');
         */
 
-        event(new EventsCommentPosted($comment));
 
         // $when = now()->addMinutes(1);
         // Mail::to($post->user)->later(
@@ -46,7 +55,6 @@ class PostCommentController extends Controller
         //     new CommentPostedMarkdown($comment)
         // );
 
-        return redirect()->back()
-            ->withStatus('Comment was added succesfully!');
+        
     }
 }
