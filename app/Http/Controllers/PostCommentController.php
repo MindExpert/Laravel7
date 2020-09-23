@@ -6,12 +6,13 @@ use Mail;
 use App\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreComment;
-use App\Mail\CommentPostedMarkdown;
-use App\Jobs\NotifyUsersPostWasCommented;
 use App\Events\CommentPosted as EventsCommentPosted;
+use App\Http\Resources\Comment as CommentResource;
 // use App\Jobs\ThrottledMail;
 // use App\Mail\CommentPosted;
+// use App\Mail\CommentPostedMarkdown;
 // use App\Mail\CommentPostedOnPostWatched;
+// use App\Jobs\NotifyUsersPostWasCommented;
 
 class PostCommentController extends Controller
 {
@@ -22,7 +23,12 @@ class PostCommentController extends Controller
 
     public function index(BlogPost $post)
     {
-        return $post->comments;
+        // dump(is_array($post->comments));
+        // dump(get_class($post->comments));
+        // die;
+        // return new CommentResource($post->comments->first());
+        return CommentResource::collection($post->comments()->with('user')->get()); 
+        // return $post->comments()->with('user')->get();
     }
 
 
