@@ -23,6 +23,7 @@ class PostController extends Controller
         // $this->middleware('auth')->except(['index']);
         $this->middleware('auth')
             ->only(['create', 'store', 'edit', 'update', 'destroy']);
+        // $this->middleware('locale');
     }
 
     /**
