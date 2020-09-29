@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\ActivityComposer;
 
+use Illuminate\Http\Resources\Json\JsonResource;
+
+use App\Http\Resources\Comment as CommentResource;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -50,5 +54,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Counter::class, function($app){
             return new Counter(env('COUNTER_TIMEOUT', 5));
         });
+
+        // Without the data: [] wrapping in postman
+        // CommentResource::withoutWrapping();
+        // Remove the data wrappfrom all resources
+        JsonResource::withoutWrapping();
     }
 }

@@ -27,8 +27,8 @@ class PostCommentController extends Controller
         // dump(get_class($post->comments));
         // die;
         // return new CommentResource($post->comments->first());
-        return CommentResource::collection($post->comments()->with('user')->get()); 
-        // return $post->comments()->with('user')->get();
+        // return CommentResource::collection($post->comments()->with('user')->get()); 
+        return $post->comments()->with('user')->get();
     }
 
 
@@ -54,13 +54,10 @@ class PostCommentController extends Controller
             )->onQueue('low');
         */
 
-
         // $when = now()->addMinutes(1);
         // Mail::to($post->user)->later(
         //     $when,
         //     new CommentPostedMarkdown($comment)
-        // );
-
-        
+        // );        
     }
 }

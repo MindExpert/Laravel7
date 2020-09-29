@@ -7,7 +7,7 @@ use App\Http\Resources\CommentUser as CommentUserResource;
 
 class Comment extends JsonResource
 {
-    /**
+     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -22,5 +22,6 @@ class Comment extends JsonResource
             'updated_at' => (string)$this->updated_at,
             'user' => new CommentUserResource($this->whenLoaded('user')),
         ];
+
     }
 }
